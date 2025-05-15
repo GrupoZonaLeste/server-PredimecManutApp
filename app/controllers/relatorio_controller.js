@@ -5,10 +5,10 @@ class RelatorioController {
 
     gerarRelatorio() {
         return `
-            <div id="content">
+            <div id="content" style="font-family: Helvetica">
                 ${this.gerarCapa()}
-                ${this.gerarIndice()}
-                ${this.dados.equipamentos.forEach(element => this.gerarEquipamento(element))}
+                ${this.gerarIndice(this.dados.equipamentos)}
+                ${this.dados.equipamentos.map(element => this.gerarEquipamento(element))}
                 ${this.gerarConclusao()}
             </div>
         `
@@ -25,21 +25,29 @@ class RelatorioController {
             </div>
         `
     }
-    gerarIndice() { 
-        gerarCabecalho()
+    gerarIndice(equipamentos) {
+        let count = 1
+        return `
+            ${this.gerarCabecalho()}
+            ${equipamentos.map(element => {
+                count += 1
+                return `<p>${element.nome}............${count}</p>`
+            })}
+            <p>Conclusão...............${count+=1}</p>
+        ` 
     }
     gerarConclusao() {
         return `
-            ${gerarCabecalho()}
+            ${this.gerarCabecalho()}
             <div>
-            <h1>Conclusão</h1>
-            <p>${this.dados.conclusao}</p>
+                <h1>Conclusão</h1>
+                <p>${this.dados.conclusao}</p>
             </div>
             `
         }
         gerarEquipamento(dadosEquipamento) {
             return `
-                ${gerarCabecalho()}
+                ${this.gerarCabecalho()}
                 <div>
                     <h1>${dadosEquipamento.nome}</h1>
                     <p>${dadosEquipamento.descricao}</p>
@@ -53,8 +61,8 @@ class RelatorioController {
                     ${dadosEquipamento.trocas.length > 0 ? 
                         `<p>Trocas efetuadas nesse equipamento:</p>
                             <ul>
-                                ${dadosEquipamento.trocas.forEach(element => {
-                                    `<li>${element}</li>`    
+                                ${dadosEquipamento.trocas.map(element => {
+                                    return `<li>${element}</li>`    
                                 })}
                             </ul>
                         ` 
@@ -70,7 +78,7 @@ class RelatorioController {
             <header id="headerContent">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                      <img src="https://www.predimec.com.br/imagens/logo.png" style="width: 10%;" />
-                    <h1 style="text-align: right;">Relatório de manutenção <br>${this.cliente}</h1>
+                    <h1 style="text-align: right;">Relatório de manutenção <br>${this.dados.cliente}</h1>
                 </div>
                 <hr>
             </header>
