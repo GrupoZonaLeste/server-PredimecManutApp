@@ -3,7 +3,12 @@ CREATE TABLE cliente(
 	data_criacao TIMESTAMPTZ NOT NULL,
 	nome VARCHAR(100) NOT NULL
 );
-
+CREATE TABLE sessao (
+  id UUID PRIMARY KEY,
+  funcionario_id INT REFERENCES funcionario(id) ON DELETE CASCADE,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expira_em TIMESTAMPTZ NOT NULL
+);
 CREATE TYPE tipo_funcionario AS ENUM ('funcionario', 'admin');
 CREATE TABLE funcionario(
 	id SERIAL PRIMARY KEY,
