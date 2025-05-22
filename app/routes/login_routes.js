@@ -5,7 +5,14 @@ router.post('/login', async (req, res) => {
     const sql = `SELECT id, senha FROM funcionario WHERE login = $1`;
     const result = await query(sql, [login]);
 
-    if (result.rowCount === 0 || result.rows[0].senha !== senha) {
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: 'Credenciais inválidas' });
+    }
+
+    const hashSenha = result.rows[0].senha;
+    const senhaValida = await bcrypt.compare(senha, hashSenha);
+
+    if (!senhaValida) {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
