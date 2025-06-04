@@ -1,0 +1,7 @@
+{
+  "user": "postgres",
+  "host": "localhost",
+  "database": "predimec",
+  "password": "",
+  "port": 5432
+}
