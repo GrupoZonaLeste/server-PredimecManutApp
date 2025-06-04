@@ -3,7 +3,12 @@ CREATE TABLE cliente(
 	data_criacao TIMESTAMPTZ NOT NULL,
 	nome VARCHAR(100) NOT NULL
 );
-
+CREATE TABLE sessao (
+  id UUID PRIMARY KEY,
+  funcionario_id INT REFERENCES funcionario(id) ON DELETE CASCADE,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  expira_em TIMESTAMPTZ NOT NULL
+);
 CREATE TYPE tipo_funcionario AS ENUM ('funcionario', 'admin');
 CREATE TABLE funcionario(
 	id SERIAL PRIMARY KEY,
@@ -42,6 +47,7 @@ CREATE TABLE foto(
 	id SERIAL PRIMARY KEY,
 	nome VARCHAR(50) UNIQUE NOT NULL,
 	caminho VARCHAR(255) NOT NULL,
+	legenda TEXT,
 	equipamento_id INT,
 	CONSTRAINT fk_foto_equipamento
 		FOREIGN KEY(equipamento_id) REFERENCES equipamento(id)
@@ -54,6 +60,7 @@ CREATE TABLE troca(
 );
 
 CREATE TABLE equipamento_troca(
+	id SERIAL PRIMARY KEY,
 	equipamento_id INT,
 	troca_id INT,
 	CONSTRAINT fk_equipTroca_equipamento
@@ -64,8 +71,24 @@ CREATE TABLE equipamento_troca(
 		ON DELETE CASCADE
 );
 
+CREATE TYPE tipo_foto AS ENUM ('antes', 'depois');
+CREATE TABLE foto_equipamento_troca(
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(50) UNIQUE NOT NULL,
+	caminho VARCHAR(255) NOT NULL,
+	legenda TEXT, 
+	momento tipo_foto NOT NULL,
+	grupo_id VARCHAR(50) NOT NULL,
+	equip_troca_id INT,
+	CONSTRAINT fk_fotoEquipTroca_equipTroca
+		FOREIGN KEY(equip_troca_id) REFERENCES equipamento_troca(id)
+		ON DELETE CASCADE
+);
+
 /*
+DROP TYPE tipo_foto CASCADE;
 DROP TYPE tipo_funcionario CASCADE;
+DROP TABLE foto_equipamento_troca CASCADE;
 DROP TABLE equipamento_troca CASCADE;
 DROP TABLE troca CASCADE;
 DROP TABLE foto CASCADE;

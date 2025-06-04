@@ -37,9 +37,21 @@ VALUES
 	(2, 3),
 	(3, 3);
 
-INSERT INTO foto(nome, caminho, equipamento_id)
+INSERT INTO foto_equipamento_troca(nome, caminho, legenda, momento, grupo_id, equip_troca_id)
 VALUES
-	('Foto-20042025-183826', '...', 1),
-	('Foto-20042025-192216', '...', 1),
-	('Foto-20042025-213354', '...', 2),
-	('Foto-20042025-213410', '...', 2);
+	('Troca-20052025-112233', '...', 'teste_legenda', 'antes', 'Eqp-1-rolamento-20052025-112233',1),
+	('Troca-20052025-134433', '...', 'teste_legenda', 'depois', 'Eqp-1-rolamento-20052025-112233', 1),
+	('Troca-20052025-153211', '...', 'teste_legenda', 'antes', 'Eqp-1-polia-20052025-153211', 2),
+	('Troca-20052025-155522', '...', 'teste_legenda', 'depois', 'Eqp-1-polia-20052025-153211', 2),
+	('Troca-20052025-171147', '...', 'teste_legenda', 'antes', 'Eqp-1-fonte-20052025-171147', 3),
+	('Troca-20052025-174421', '...', 'teste_legenda', 'depois', 'Eqp-1-fonte-20052025-171147', 3);
+
+INSERT INTO foto(nome, caminho, legenda, equipamento_id)
+VALUES
+	('Foto-20042025-183826', '...', 'teste_legenda', 1),
+	('Foto-20042025-192216', '...', 'teste_legenda', 1),
+	('Foto-20042025-213354', '...', 'teste_legenda', 2),
+	('Foto-20042025-213410', '...', 'teste_legenda', 2);
+
+
+		
