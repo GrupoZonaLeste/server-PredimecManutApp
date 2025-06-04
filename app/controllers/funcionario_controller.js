@@ -1,4 +1,5 @@
 import {
+  login,
   getAllFuncionario,
   getOneFuncionario,
   postFuncionario,
@@ -23,6 +24,17 @@ let funcAtualizado = {
 }
 
 class FuncionarioController {
+    async login(req, res){
+      try{
+        const credenciais = req.body
+        const response = await login(credenciais)
+        return res.status(200).json(response.rows[0])
+      } catch(error){
+        console.error(error);
+        return res.status(500).json({ message: 'Erro interno do servidor' });
+      }
+    }
+
     async create(req, res){
       try{
         const novoFuncionario = req.body

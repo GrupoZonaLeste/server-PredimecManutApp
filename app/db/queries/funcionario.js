@@ -1,5 +1,10 @@
 import { query } from '../connection.js'
 
+let postLoginTemplate = {
+  "login": "",
+  "senha": ""
+}
+
 let postObjectTemplate = {
   "data_criacao": "",
   "nome": "",
@@ -25,6 +30,28 @@ function haveSameKeys(obj1, obj2){
   }
 
   return keys1.every(key => keys2.includes(key));
+}
+
+export async function login(loginObj){
+  if(!haveSameKeys(loginObj, postLoginTemplate)){
+    const error = new Error('Erro: Objeto para POST de login está incorreto')
+    error.code = 'FUN003'
+    throw error
+  }
+
+  let queryConferirCredenciais = 
+    `SELECT id, nome, tipo, login, senha FROM funcionario 
+    WHERE login = $1 AND senha = $2`
+  let values = [loginObj.login, loginObj.senha]
+
+  try{
+    const res_conferirCred = await query(queryConferirCredenciais, values)
+    return res_conferirCred
+  } catch(err){
+    console.error('Erro executando query: ', err)
+    throw err
+  }
+
 }
 
 export async function getAllFuncionario(){
