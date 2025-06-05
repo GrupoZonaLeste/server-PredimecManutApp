@@ -23,7 +23,7 @@ function haveSameKeys(obj1, obj2){
 
 export async function getAllClientes(){
   try{
-    const res = await query('SELECT id, nome FROM cliente')
+    const res = await query('SELECT id, nome FROM cliente ORDER BY nome')
     return res.rows
   }catch(err){
     console.error('Erro executando query: ', err)

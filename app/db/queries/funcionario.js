@@ -56,7 +56,7 @@ export async function login(loginObj){
 
 export async function getAllFuncionario(){
   let querySelectAllFuncionario = 
-    "SELECT * FROM funcionario"
+    "SELECT * FROM funcionario ORDER BY id"
 
   try{
     const res = await query(querySelectAllFuncionario)

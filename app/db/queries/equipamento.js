@@ -56,7 +56,7 @@ function isObjectInArray(obj1, arr){
 
 export async function getAllEquipamentos(){
   try{
-    const res = await query('SELECT * FROM equipamento')
+    const res = await query('SELECT * FROM equipamento ORDER BY data_criacao')
     return res.rows
   } catch(err){
     console.error('Erro executando query: ', err)
@@ -82,18 +82,24 @@ export async function getOneEquipamento(id){
     const res_trocas = await client.query(querySelectTrocas, [id])
 
     /* SELECIONANDO FOTOS DAS TROCAS */
-    const trocasPlaceholdersSelect = res_trocas.rows.map((_, index) => `$${index + 1}`).join(',');
-    let querySelectFotosTrocas = 
-      `SELECT id, nome, caminho, legenda, momento, grupo_id, equip_troca_id
-      FROM foto_equipamento_troca
-      WHERE equip_troca_id IN (${trocasPlaceholdersSelect})`;
-    let selectFotosTrocas_values = res_trocas.rows.map((item) => item.id)
-    const res_fotosTrocas = await client.query(querySelectFotosTrocas, selectFotosTrocas_values)
+    let existemTrocas = res_trocas.rows.length > 0;
+    let trocas_obj = [];
 
-    let trocas_obj = res_trocas.rows.map((item) => ({
-      ...item,
-      fotos: res_fotosTrocas.rows.filter(foto => foto.equip_troca_id === item.id)
-    }));
+    if(existemTrocas){
+      const trocasPlaceholdersSelect = res_trocas.rows.map((_, index) => `$${index + 1}`).join(',');
+      let querySelectFotosTrocas = 
+        `SELECT id, nome, caminho, legenda, momento, grupo_id, equip_troca_id
+        FROM foto_equipamento_troca
+        WHERE equip_troca_id IN (${trocasPlaceholdersSelect})`;
+      let selectFotosTrocas_values = res_trocas.rows.map((item) => item.id)
+      const res_fotosTrocas = await client.query(querySelectFotosTrocas, selectFotosTrocas_values)
+
+      trocas_obj = res_trocas.rows.map((item) => ({
+        ...item,
+        fotos: res_fotosTrocas.rows.filter(foto => foto.equip_troca_id === item.id)
+      }));
+    }
+
 
     if(res_equipamento.rows.length > 0){
       return {

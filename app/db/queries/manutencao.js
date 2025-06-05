@@ -53,7 +53,7 @@ export async function getOneManutencao(id){
 
 export async function getAllManutencao(){
   try{
-    const res = await query('SELECT * FROM manutencao')
+    const res = await query('SELECT * FROM manutencao ORDER BY data_criacao')
     return res.rows
   }catch(err){
     console.error('Erro executando query: ', err)

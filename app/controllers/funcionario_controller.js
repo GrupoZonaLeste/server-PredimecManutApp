@@ -28,7 +28,13 @@ class FuncionarioController {
       try{
         const credenciais = req.body
         const response = await login(credenciais)
-        return res.status(200).json(response.rows[0])
+		
+        if(response.rowCount !== 0){
+          return res.status(200).json(response.rows[0])
+        } else {
+          return res.status(401).json({message: 'Erro: login ou senha invalidos'})
+        }
+        
       } catch(error){
         console.error(error);
         return res.status(500).json({ message: 'Erro interno do servidor' });

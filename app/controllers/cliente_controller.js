@@ -51,8 +51,9 @@ class ClienteController {
     try{
       const id = req.params.id
       const response = await getOneCliente(id)
+      
       if(response.rowCount !== 0){
-        return res.status(200).json(response.rows[0])
+        return res.status(200).json(response)
       } else {
         return res.status(404).json({ message: 'Erro ao buscar cliente: cliente não existe'})
       }
