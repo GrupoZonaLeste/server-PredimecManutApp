@@ -2,6 +2,6 @@
   "user": "postgres",
   "host": "localhost",
   "database": "predimec",
-  "password": "96R26Yk#",
+  "password": "",
   "port": 5432
 }
