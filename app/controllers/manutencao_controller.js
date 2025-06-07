@@ -1,4 +1,5 @@
 import {
+  getDadosRelatorio,
   getOneManutencao,
   getAllManutencao,
   getManutencoesRecentes,
@@ -13,6 +14,21 @@ let novaManutencao = {
 }
 
 class ManutencaoController {
+  async getRelatorio(req, res){
+    try{
+      const id = req.params.id;
+      const response_obj = await getDadosRelatorio(id)
+      return res.status(200).json(response_obj)
+    } catch(error){
+      console.log(error)
+      if(error.code == "MAN003"){
+        return res.status(404).json({ message: 'Erro ao buscar dados do relatório: manutenção não existe'})
+      } else {
+        return res.status(500).json({ message: 'Erro interno do servidor' });
+      }
+    }
+  }
+
   async create(req, res){
     try{
       const novaManutencao = req.body
