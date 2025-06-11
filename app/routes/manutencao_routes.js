@@ -1,7 +1,10 @@
 import { Router } from "express";
 import ManutencaoController from '../controllers/manutencao_controller.js'
+import { autenticarSessao } from "../middlewares/auth.js";
 
 const router = Router()
+
+router.use(autenticarSessao);
 
 router.get("/manutencao", ManutencaoController.getAll)
 router.get("/manutencao/recentes", ManutencaoController.getRecent)

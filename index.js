@@ -3,11 +3,13 @@ import routes_cliente from './app/routes/cliente_routes.js'
 import routes_funcionario from './app/routes/funcionario_routes.js'
 import routes_manutencao from './app/routes/manutencao_routes.js'
 import routes_equipamento from "./app/routes/equipamento_routes.js"
+import routes_login from './app/routes/login_routes.js'
 
 const app = express()
 
 app.use(express.json())
 
+app.use(routes_login)
 app.use(routes_cliente)
 app.use(routes_funcionario)
 app.use(routes_manutencao)
