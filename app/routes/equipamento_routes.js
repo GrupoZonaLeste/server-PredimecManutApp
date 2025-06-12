@@ -2,7 +2,8 @@ import { Router } from "express";
 import EquipamentoController from '../controllers/equipamento_controller.js'
 import { autenticarSessao } from "../middlewares/auth.js";
 
-const router = Router()
+const router = Router();
+router.use(autenticarSessao);
 
 router.use(autenticarSessao);
 
