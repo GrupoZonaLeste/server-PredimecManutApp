@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { criarSessao } from '../db/sessao.js';
+import { criarSessao, deletarSessao } from '../db/sessao.js';
 import { query } from '../db/connection.js'
 
 const router = Router()
@@ -30,5 +30,17 @@ router.post('/login', async (req, res) => {
     return res.status(500).json({ message: 'Erro ao realizar login' });
   }
 });
+
+router.post('/logout', async(req, res) => {
+  const { token } = req.body
+
+  try{
+    await deletarSessao(token)
+    return res.status(200).json({ message: 'Sessão deletada com sucesso'})
+  } catch(err){
+    console.error(err);
+    return res.status(500).json({ message: 'Erro ao deletar sessão' });
+  }
+})
 
 export default router

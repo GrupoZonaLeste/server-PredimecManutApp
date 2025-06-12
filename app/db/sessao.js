@@ -13,5 +13,5 @@ export async function criarSessao(funcionario_id) {
 
 export async function deletarSessao(token) {
   const sql = `DELETE FROM sessao WHERE id = $1`;
-  await query(sql, [token]);
+  let res = await query(sql, [token]);
 }
