@@ -11,11 +11,11 @@ const app = express()
 app.use(express.json())
 
 app.use(routes_login)
+app.use(routes_relatorio)
 app.use(routes_cliente)
 app.use(routes_funcionario)
 app.use(routes_manutencao)
 app.use(routes_equipamento)
-app.use(routes_relatorio)
 
 const jsonErrorHandler = (err, req, res, next) => {
   console.error('Erro não tratado:', err); // Log para debug

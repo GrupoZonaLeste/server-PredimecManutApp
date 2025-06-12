@@ -18,7 +18,7 @@ class ManutencaoController {
     try{
       const id = req.params.id;
       const response_obj = await getDadosRelatorio(id)
-      return res.status(200).json(response_obj)
+      return JSON.stringify(response_obj)
     } catch(error){
       console.log(error)
       if(error.code == "MAN003"){

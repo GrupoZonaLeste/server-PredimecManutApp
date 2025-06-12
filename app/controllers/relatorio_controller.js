@@ -1,6 +1,6 @@
 class RelatorioController {
     constructor(dados) {
-        this.dados = dados
+        this.dados = JSON.parse(dados)
     }
 
     gerarRelatorio() {
@@ -8,7 +8,7 @@ class RelatorioController {
             <div id="content" style="font-family: Helvetica">
                 ${this.gerarCapa()}
                 ${this.gerarIndice(this.dados.equipamentos)}
-                ${this.dados.equipamentos.map(element => this.gerarEquipamento(element))}
+                ${this.dados.equipamentos?.map(element => this.gerarEquipamento(element))}
                 ${this.gerarConclusao()}
             </div>
         `
@@ -20,7 +20,7 @@ class RelatorioController {
             <h1 style="text-align: center; background-color: orange; border: 1px solid; font-size: 40px; width: 100%; color: white;">
                 Relatório de manutenção <br>${this.dados.cliente}</h1>
             <h1 style="text-align: center; background-color: orange; border: 1px solid; width: max-content; color: white; padding: 5px;">
-                ${this.dados.data}</h1>
+                ${this.dados.data_criacao}</h1>
                 <span class="html2pdf__page-break"></span>
             </div>
         `
@@ -29,7 +29,7 @@ class RelatorioController {
         let count = 1
         return `
             ${this.gerarCabecalho()}
-            ${equipamentos.map(element => {
+            ${equipamentos?.map(element => {
                 count += 1
                 return `<p>${element.nome}............${count}</p>`
             })}
@@ -53,9 +53,9 @@ class RelatorioController {
                     <p>${dadosEquipamento.descricao}</p>
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
                         <div style="display: flex; justify-content: center;">
-                            <img src="${dadosEquipamento.foto[0]}" style="width: 50%; border: 2px solid rgb(233, 124, 22);" />
+                            <img src="${dadosEquipamento.fotos[0]}" style="width: 50%; border: 2px solid rgb(233, 124, 22);" />
                         </div>
-                        <p style="margin: 0px; font-style: italic;">${dadosEquipamento.foto[1]}</p>
+                        <p style="margin: 0px; font-style: italic;">${dadosEquipamento.fotos[1]}</p>
                     </div>
                     <div>
                     ${dadosEquipamento.trocas.length > 0 ? 
